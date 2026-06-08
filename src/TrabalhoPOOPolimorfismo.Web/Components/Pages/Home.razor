@@ -1,0 +1,58 @@
+﻿@page "/"
+@rendermode InteractiveServer
+@using TrabalhoPOOPolimorfismo.Web.Services
+@inject EstoqueState EstoqueState
+
+<PageTitle>Dashboard</PageTitle>
+
+<section class="hero-banner">
+    <div class="hero-copy">
+        <span class="badge badge-highlight">Controle de Estoque</span>
+        <h1>Consuma o estoque com estilo.</h1>
+        <p>Menu lateral, relatórios dinâmicos e persistência em memória para todo o estoque de produtos.</p>
+        <div class="hero-actions">
+            <a class="btn btn-primary" href="/products">Cadastrar produto</a>
+            <a class="btn btn-outline" href="/relatorios">Ver relatórios</a>
+        </div>
+    </div>
+    <div class="hero-cards">
+        <div class="metric-card gradient-1">
+            <span>Total de produtos</span>
+            <strong>@EstoqueState.TotalProdutos</strong>
+        </div>
+        <div class="metric-card gradient-2">
+            <span>Valor bruto</span>
+            <strong>@EstoqueState.TotalBruto:C2</strong>
+        </div>
+        <div class="metric-card gradient-3">
+            <span>Valor ajustado</span>
+            <strong>@EstoqueState.TotalAjustado:C2</strong>
+        </div>
+    </div>
+</section>
+
+<section class="content-grid home-summary">
+    <div class="card card-soft">
+        <div class="card-header">
+            <h2>Resumo rápido</h2>
+        </div>
+        <div class="card-body">
+            <p>O sistema controla 4 tipos de produto: perecível, eletrônico, limpeza e controlado. Cada tipo usa sua própria lógica polimórfica de risco, instrução de armazenamento e valor ajustado.</p>
+            <ul>
+                <li>Produtos perecíveis têm desconto conforme a validade;</li>
+                <li>Eletrônicos usam depreciação por garantia;</li>
+                <li>Limpeza ganha ajuste de acordo com a composição;</li>
+                <li>Controlados aumentam o valor por exigência legal.</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="card card-soft">
+        <div class="card-header">
+            <h2>Observações</h2>
+        </div>
+        <div class="card-body">
+            <p>Os produtos são mantidos em uma coleção polimórfica em memória e exibidos em tabelas com cores que destacam o nível de risco.</p>
+        </div>
+    </div>
+</section>

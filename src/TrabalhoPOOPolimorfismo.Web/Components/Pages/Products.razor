@@ -1,0 +1,184 @@
+@page "/products"
+@rendermode InteractiveServer
+@using TrabalhoPOOPolimorfismo.Web.Services
+@inject EstoqueState EstoqueState
+
+<PageTitle>Produtos</PageTitle>
+
+<div class="page-header">
+    <div>
+        <h1>Produtos</h1>
+        <p class="subtitle">Cadastre produtos no estoque usando as regras de polimorfismo do domínio.</p>
+    </div>
+    <div class="pill-group">
+        <button class="pill @(selectedType == ProdutoTipo.Perecivel ? "active" : "")" @onclick="() => SelectType(ProdutoTipo.Perecivel)">Perecível</button>
+        <button class="pill @(selectedType == ProdutoTipo.Eletronico ? "active" : "")" @onclick="() => SelectType(ProdutoTipo.Eletronico)">Eletrônico</button>
+        <button class="pill @(selectedType == ProdutoTipo.Limpeza ? "active" : "")" @onclick="() => SelectType(ProdutoTipo.Limpeza)">Limpeza</button>
+        <button class="pill @(selectedType == ProdutoTipo.Controlado ? "active" : "")" @onclick="() => SelectType(ProdutoTipo.Controlado)">Controlado</button>
+    </div>
+</div>
+
+<div class="content-grid">
+    <section class="form-panel">
+        <div class="card card-soft">
+            <div class="card-header">
+                <h2>Adicionar novo produto</h2>
+                <span class="badge badge-soft">@selectedType</span>
+            </div>
+            <div class="card-body">
+                <div class="form-group">
+                    <label>Nome</label>
+                    <input class="form-control" @bind="nome" placeholder="Ex: Leite Integral" />
+                </div>
+                <div class="form-group">
+                    <label>Código</label>
+                    <input class="form-control" @bind="codigo" placeholder="Ex: P001" />
+                </div>
+                <div class="form-row">
+                    <div class="form-group half">
+                        <label>Quantidade</label>
+                        <input type="number" class="form-control" @bind="quantidade" min="1" />
+                    </div>
+                    <div class="form-group half">
+                        <label>Valor unitário</label>
+                        <input type="number" class="form-control" step="0.01" @bind="valorUnitario" min="0" />
+                    </div>
+                </div>
+
+                @if (selectedType == ProdutoTipo.Perecivel)
+                {
+                    <div class="form-group">
+                        <label>Data de validade</label>
+                        <input type="date" class="form-control" @bind="dataValidade" />
+                    </div>
+                }
+                else if (selectedType == ProdutoTipo.Eletronico)
+                {
+                    <div class="form-group">
+                        <label>Garantia (meses)</label>
+                        <input type="number" class="form-control" @bind="garantiaMeses" min="0" />
+                    </div>
+                }
+                else if (selectedType == ProdutoTipo.Limpeza)
+                {
+                    <div class="form-group">
+                        <label>Composição química</label>
+                        <input class="form-control" @bind="composicaoQuimica" placeholder="Ex: Ácido cítrico" />
+                    </div>
+                }
+                else
+                {
+                    <div class="form-group checkbox-group">
+                        <label>
+                            <input type="checkbox" @bind="requerAutorizacao" /> Requer autorização
+                        </label>
+                    </div>
+                }
+
+                <div class="actions">
+                    <button class="btn btn-primary btn-block" @onclick="SalvarProduto">Adicionar produto</button>
+                </div>
+
+                <div class="feedback @feedbackClass">
+                    @feedbackMessage
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="table-panel">
+        <div class="card card-soft">
+            <div class="card-header">
+                <h2>Estoque</h2>
+                <p>@EstoqueState.TotalProdutos produto(s) em memória</p>
+            </div>
+
+            <div class="card-body card-table">
+                @if (!EstoqueState.Produtos.Any())
+                {
+                    <div class="empty-state">
+                        Nenhum produto cadastrado ainda. Preencha o formulário e clique em adicionar.
+                    </div>
+                }
+                else
+                {
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Produto</th>
+                                <th>Tipo</th>
+                                <th>Risco</th>
+                                <th>Armazenamento</th>
+                                <th>Bruto</th>
+                                <th>Ajustado</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var produto in EstoqueState.Produtos)
+                            {
+                                <tr class="@EstoqueState.ObterClasseRisco(produto)">
+                                    <td>
+                                        <div class="product-name">@produto.Nome</div>
+                                        <div class="product-code">@produto.Codigo</div>
+                                    </td>
+                                    <td>@produto.GetType().Name</td>
+                                    <td>@produto.CalcularRiscoEstoque()</td>
+                                    <td>@produto.ObterInstrucaoArmazenamento()</td>
+                                    <td>@produto.CalcularValorTotalBruto():C2</td>
+                                    <td>@produto.CalcularValorTotalAjustado():C2</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                }
+            </div>
+        </div>
+    </section>
+</div>
+
+@code {
+    private ProdutoTipo selectedType = ProdutoTipo.Perecivel;
+    private string nome = string.Empty;
+    private string codigo = string.Empty;
+    private int quantidade = 1;
+    private decimal valorUnitario = 0m;
+    private DateTime dataValidade = DateTime.Today.AddDays(7);
+    private int garantiaMeses = 12;
+    private string composicaoQuimica = "Ácido cítrico";
+    private bool requerAutorizacao = true;
+    private string feedbackMessage = string.Empty;
+    private string feedbackClass = string.Empty;
+
+    private void SelectType(ProdutoTipo type)
+    {
+        selectedType = type;
+        feedbackMessage = string.Empty;
+    }
+
+    private void SalvarProduto()
+    {
+        feedbackMessage = string.Empty;
+        feedbackClass = string.Empty;
+
+        if (string.IsNullOrWhiteSpace(nome) || string.IsNullOrWhiteSpace(codigo) || quantidade < 1 || valorUnitario < 0)
+        {
+            feedbackMessage = "Preencha nome, código, quantidade e valor unitário válidos.";
+            feedbackClass = "alert-danger";
+            return;
+        }
+
+        EstoqueState.AdicionarProduto(selectedType, nome.Trim(), codigo.Trim(), quantidade, valorUnitario, dataValidade, garantiaMeses, composicaoQuimica.Trim(), requerAutorizacao);
+        feedbackMessage = EstoqueState.Mensagem;
+        feedbackClass = EstoqueState.MensagemClasse == "success" ? "alert-success" : "alert-danger";
+
+        if (EstoqueState.MensagemClasse == "success")
+        {
+            nome = string.Empty;
+            codigo = string.Empty;
+            quantidade = 1;
+            valorUnitario = 0m;
+            composicaoQuimica = "Ácido cítrico";
+            requerAutorizacao = true;
+        }
+    }
+}

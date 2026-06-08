@@ -50,11 +50,10 @@ void ExibirMenuPrincipal()
     Console.Clear();
     Console.WriteLine("╔════════════════════════════════════════╗");
     Console.WriteLine("║      SISTEMA DE CONTROLE DE ESTOQUE     ║");
-    Console.WriteLine("╠════════════════════════════════════════╣");
-    Console.WriteLine("║ 1 - Produtos                            ║");
-    Console.WriteLine("║ 2 - Relatórios                          ║");
-    Console.WriteLine("║ 0 - Sair                                ║");
     Console.WriteLine("╚════════════════════════════════════════╝");
+    Console.WriteLine("1 - Produtos");
+    Console.WriteLine("2 - Relatórios");
+    Console.WriteLine("0 - Sair");
     Console.Write("Escolha uma opção: ");
 }
 
@@ -67,14 +66,13 @@ void MenuProdutos()
         Console.Clear();
         Console.WriteLine("╔════════════════════════════════════════╗");
         Console.WriteLine("║             MENU DE PRODUTOS            ║");
-        Console.WriteLine("╠════════════════════════════════════════╣");
-        Console.WriteLine("║ 1 - Cadastrar produto perecível         ║");
-        Console.WriteLine("║ 2 - Cadastrar produto eletrônico        ║");
-        Console.WriteLine("║ 3 - Cadastrar produto de limpeza        ║");
-        Console.WriteLine("║ 4 - Cadastrar produto controlado        ║");
-        Console.WriteLine("║ 5 - Listar produtos                     ║");
-        Console.WriteLine("║ 0 - Voltar ao menu principal            ║");
         Console.WriteLine("╚════════════════════════════════════════╝");
+        Console.WriteLine("1 - Cadastrar produto perecível");
+        Console.WriteLine("2 - Cadastrar produto eletrônico");
+        Console.WriteLine("3 - Cadastrar produto de limpeza");
+        Console.WriteLine("4 - Cadastrar produto controlado");
+        Console.WriteLine("5 - Listar produtos");
+        Console.WriteLine("0 - Voltar ao menu principal");
         Console.Write("Escolha uma opção: ");
 
         var opcao = Console.ReadLine() ?? "0";
@@ -121,10 +119,9 @@ void MenuRelatorios()
         Console.Clear();
         Console.WriteLine("╔════════════════════════════════════════╗");
         Console.WriteLine("║            MENU DE RELATÓRIOS           ║");
-        Console.WriteLine("╠════════════════════════════════════════╣");
-        Console.WriteLine("║ 1 - Exibir relatório de estoque         ║");
-        Console.WriteLine("║ 0 - Voltar ao menu principal            ║");
         Console.WriteLine("╚════════════════════════════════════════╝");
+        Console.WriteLine("1 - Exibir relatório de estoque");
+        Console.WriteLine("0 - Voltar ao menu principal");
         Console.Write("Escolha uma opção: ");
 
         var opcao = Console.ReadLine() ?? "0";
@@ -155,7 +152,7 @@ void CadastrarProdutoPerecivel()
     Console.Clear();
     Console.WriteLine("╔════════════════════════════════════════╗");
     Console.WriteLine("║       CADASTRAR PRODUTO PERECÍVEL      ║");
-    Console.WriteLine("╠════════════════════════════════════════╣");
+    Console.WriteLine("╚════════════════════════════════════════╝");
     Console.Write("Nome: ");
     var nome = Console.ReadLine() ?? string.Empty;
     Console.Write("Código: ");
@@ -188,9 +185,8 @@ void CadastrarProdutoEletronico()
 {
     Console.Clear();
     Console.WriteLine("╔════════════════════════════════════════╗");
-
     Console.WriteLine("║      CADASTRAR PRODUTO ELETRÔNICO      ║");
-    Console.WriteLine("╠════════════════════════════════════════╣");
+    Console.WriteLine("╚════════════════════════════════════════╝");
     Console.Write("Nome: ");
     var nome = Console.ReadLine() ?? string.Empty;
     Console.Write("Código: ");
@@ -224,7 +220,7 @@ void CadastrarProdutoLimpeza()
     Console.Clear();
     Console.WriteLine("╔════════════════════════════════════════╗");
     Console.WriteLine("║      CADASTRAR PRODUTO DE LIMPEZA      ║");
-    Console.WriteLine("╠════════════════════════════════════════╣");
+    Console.WriteLine("╚════════════════════════════════════════╝");
     Console.Write("Nome: ");
     var nome = Console.ReadLine() ?? string.Empty;
     Console.Write("Código: ");
@@ -258,7 +254,7 @@ void CadastrarProdutoControlado()
     Console.Clear();
     Console.WriteLine("╔════════════════════════════════════════╗");
     Console.WriteLine("║      CADASTRAR PRODUTO CONTROLADO      ║");
-    Console.WriteLine("╠════════════════════════════════════════╣");
+    Console.WriteLine("╚════════════════════════════════════════╝");
     Console.Write("Nome: ");
     var nome = Console.ReadLine() ?? string.Empty;
     Console.Write("Código: ");
@@ -292,29 +288,26 @@ void ListarProdutos()
     Console.Clear();
     Console.WriteLine("╔════════════════════════════════════════╗");
     Console.WriteLine("║          PRODUTOS CADASTRADOS          ║");
-    Console.WriteLine("╠════════════════════════════════════════╣");
+    Console.WriteLine("╚════════════════════════════════════════╝");
 
     var produtos = estoqueService.ObterProdutos().ToList();
     if (!produtos.Any())
     {
-        Console.WriteLine("║ Nenhum produto cadastrado.              ║");
-        Console.WriteLine("╚════════════════════════════════════════╝");
+        Console.WriteLine("Nenhum produto cadastrado.");
         return;
     }
 
     foreach (var produto in produtos)
     {
-        Console.WriteLine("║                                        ║");
-        Console.WriteLine($"║ {produto.Nome} ({produto.Codigo})");
-        Console.WriteLine($"║ Tipo: {produto.GetType().Name}");
-        Console.WriteLine($"║ Risco: {produto.CalcularRiscoEstoque()}");
-        Console.WriteLine($"║ Armazenamento: {produto.ObterInstrucaoArmazenamento()}");
-        Console.WriteLine($"║ Valor bruto: {produto.CalcularValorTotalBruto():C2}");
-        Console.WriteLine($"║ Valor ajustado: {produto.CalcularValorTotalAjustado():C2}");
-        Console.WriteLine("╠════════════════════════════════════════╣");
+        Console.WriteLine();
+        Console.WriteLine($"Nome: {produto.Nome} ({produto.Codigo})");
+        Console.WriteLine($"Tipo: {produto.GetType().Name}");
+        Console.WriteLine($"Risco: {produto.CalcularRiscoEstoque()}");
+        Console.WriteLine($"Armazenamento: {produto.ObterInstrucaoArmazenamento()}");
+        Console.WriteLine($"Valor bruto: {produto.CalcularValorTotalBruto():C2}");
+        Console.WriteLine($"Valor ajustado: {produto.CalcularValorTotalAjustado():C2}");
+        Console.WriteLine("----------------------------------------");
     }
-
-    Console.WriteLine("╚════════════════════════════════════════╝");
 }
 
 void ExibirRelatorio()
@@ -322,7 +315,7 @@ void ExibirRelatorio()
     Console.Clear();
     Console.WriteLine("╔════════════════════════════════════════╗");
     Console.WriteLine("║          RELATÓRIO DE ESTOQUE           ║");
-    Console.WriteLine("╠════════════════════════════════════════╣");
+    Console.WriteLine("╚════════════════════════════════════════╝");
 
     var relatorio = RelatorioService.GerarRelatorio(estoqueService.ObterProdutos());
     Console.WriteLine(relatorio);
