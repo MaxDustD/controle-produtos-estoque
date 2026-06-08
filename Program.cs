@@ -314,7 +314,7 @@ void ExibirRelatorio()
 {
     Console.Clear();
     Console.WriteLine("╔════════════════════════════════════════╗");
-    Console.WriteLine("║          RELATÓRIO DE ESTOQUE           ║");
+    Console.WriteLine("║          RELATÓRIO DE ESTOQUE          ║");
     Console.WriteLine("╚════════════════════════════════════════╝");
 
     var relatorio = RelatorioService.GerarRelatorio(estoqueService.ObterProdutos());
