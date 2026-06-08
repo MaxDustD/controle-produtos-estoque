@@ -304,8 +304,8 @@ void ListarProdutos()
         Console.WriteLine($"Tipo: {produto.GetType().Name}");
         Console.WriteLine($"Risco: {produto.CalcularRiscoEstoque()}");
         Console.WriteLine($"Armazenamento: {produto.ObterInstrucaoArmazenamento()}");
-        Console.WriteLine($"Valor bruto: {produto.CalcularValorTotalBruto():C2}");
-        Console.WriteLine($"Valor ajustado: {produto.CalcularValorTotalAjustado():C2}");
+        Console.WriteLine($"Valor bruto: {produto.CalcularValorTotalBruto():C}");
+        Console.WriteLine($"Valor ajustado: {produto.CalcularValorTotalAjustado():C}");
         Console.WriteLine("----------------------------------------");
     }
 }

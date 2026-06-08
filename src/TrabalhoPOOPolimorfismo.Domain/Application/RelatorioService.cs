@@ -17,8 +17,8 @@ public static class RelatorioService
             builder.AppendLine(produto.ToString());
             builder.AppendLine($"Risco de estoque: {produto.CalcularRiscoEstoque()}");
             builder.AppendLine($"Instrução de armazenamento: {produto.ObterInstrucaoArmazenamento()}");
-            builder.AppendLine($"Valor bruto: {produto.CalcularValorTotalBruto():C2}");
-            builder.AppendLine($"Valor ajustado: {produto.CalcularValorTotalAjustado():C2}");
+            builder.AppendLine($"Valor bruto: {produto.CalcularValorTotalBruto():C}");
+            builder.AppendLine($"Valor ajustado: {produto.CalcularValorTotalAjustado():C}");
             builder.AppendLine(new string('-', 60));
         }
 

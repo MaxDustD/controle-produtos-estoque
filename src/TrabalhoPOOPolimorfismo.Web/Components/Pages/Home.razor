@@ -22,11 +22,11 @@
         </div>
         <div class="metric-card gradient-2">
             <span>Valor bruto</span>
-            <strong>@EstoqueState.TotalBruto:C2</strong>
+            <strong>@(EstoqueState.TotalBruto.ToString("C"))</strong>
         </div>
         <div class="metric-card gradient-3">
             <span>Valor ajustado</span>
-            <strong>@EstoqueState.TotalAjustado:C2</strong>
+            <strong>@(EstoqueState.TotalAjustado.ToString("C"))</strong>
         </div>
     </div>
 </section>

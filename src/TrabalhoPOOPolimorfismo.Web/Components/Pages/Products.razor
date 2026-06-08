@@ -124,8 +124,8 @@
                                     <td>@produto.GetType().Name</td>
                                     <td>@produto.CalcularRiscoEstoque()</td>
                                     <td>@produto.ObterInstrucaoArmazenamento()</td>
-                                    <td>@produto.CalcularValorTotalBruto():C2</td>
-                                    <td>@produto.CalcularValorTotalAjustado():C2</td>
+                                    <td>@(produto.CalcularValorTotalBruto().ToString("C"))</td>
+                                    <td>@(produto.CalcularValorTotalAjustado().ToString("C"))</td>
                                 </tr>
                             }
                         </tbody>

@@ -52,6 +52,6 @@ public abstract class Produto
 
     public override string ToString()
     {
-        return $"{Nome} ({Codigo}) - Quantidade: {Quantidade} - Unitário: {ValorUnitario:C2}";
+        return $"{Nome} ({Codigo}) - Quantidade: {Quantidade} - Unitário: {ValorUnitario:C}";
     }
 }
